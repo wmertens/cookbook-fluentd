@@ -15,7 +15,7 @@
 <% @client_matches.each do |key,match| %>
 <match <%= key.to_s %>>
   <% match.keys.each do |match_key| %>
-  <%= match_key.to_s %> <%= match[match_key] %>
+  <%= match_key.to_s %> <%= match[match_key].gsub("$data", node[:fluentd][:server][:log_dir]) %>
   <% end %>
 </match>
 <% end %>

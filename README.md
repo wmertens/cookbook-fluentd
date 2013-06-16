@@ -16,6 +16,7 @@ Installs and starts fluentd server.
 ### Server configuration options
 
 * `node[:fluentd][:server][:port]`: port used by the `forward` source
+* `node[:fluentd][:server][:log_dir]`: direcotry where the logs should go to
 * `node[:fluentd][:server][:enable_hdfs_output]`: makes webhdfs output available
 * `node[:fluentd][:server][:enable_mongo_output]`: makes MongoDB output available
 * `node[:fluentd][:server][:enable_s3_output]`: makes S3 output available
@@ -57,7 +58,7 @@ In `cluster_overrides` do the following:
     :fluentd => {
       :client => {
         :matches => {
-          "syslogs.**" => { :type => "file", :path => "/var/log/td-agent/syslogs" },
+          "syslogs.**" => { :type => "file", :path => "$data/syslogs" },
           ...
         },
         :jobs => [
@@ -68,6 +69,8 @@ In `cluster_overrides` do the following:
     }
 
 The above code is going to observe `/var/log/syslog` and forward all entries to a fluentd server. Category name points to a file on the fluentd server where all the entries can be found.  
+
+`$data` will be replaced with `node[:fluentd][:server][:log_dir]`.  
 `$name` will be replaced with `#{cluster_name}-#{facet_name}-#{facet_index}`.
 
 ## License

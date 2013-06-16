@@ -1,6 +1,6 @@
 default[:fluentd][:server][:port] = 24224
+default[:fluentd][:server][:log_dir] = "/var/log/td-agent"
 default[:fluentd][:server].merge! {
-  :port => PORT,
   :enable_hdfs_output => true,
   :enable_mongo_output => true,
   :enable_s3_output => true,
@@ -10,7 +10,7 @@ default[:fluentd][:server].merge! {
       :apikey => "YOUR_API_KEY",
       :auto_create_table => nil,
       :buffer_type => "file",
-      :buffer_path => "/var/log/td-agent/buffer/td"
+      :buffer_path => "#{default[:fluentd][:server][:log_dir]}/buffer/td"
     },
     "debug.**" => {
       :type => "stdout",

@@ -1,4 +1,10 @@
 package "curl"
+
+directory "#{node[:fluentd][:server][:log_dir]}" do
+  recursive true
+  action :create
+end
+
 gem_package "fluent-plugin-webhdfs" do
   action :install
   only_if { node[:fluentd][:server][:enable_hdfs_output] == true }
