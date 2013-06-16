@@ -1,6 +1,8 @@
 package "curl"
 
 directory "#{node[:fluentd][:server][:log_dir]}" do
+  user "td-agent"
+  group "td-agent"
   recursive true
   action :create
 end

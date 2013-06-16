@@ -1,5 +1,5 @@
 default[:fluentd][:server][:port] = 24224
-default[:fluentd][:server][:log_dir] = "/var/log/td-agent"
+default[:fluentd][:server][:log_dir] = "/data/fluentd_data"
 default[:fluentd][:server].merge! {
   :enable_hdfs_output => true,
   :enable_mongo_output => true,
