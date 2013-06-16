@@ -1,0 +1,81 @@
+# Managed by Chef
+
+####
+## Output descriptions:
+##
+
+<% node[:fluentd][:server][:matches].each do |key,match| %>
+<match <%= key.to_s %>>
+  <% match.keys.each do |match_key| %>
+  <%= match_key.to_s %> <%= match[match_key] %>
+  <% end %>
+</match>
+<% end %>
+
+<% @client_matches.each do |key,match| %>
+<match <%= key.to_s %>>
+  <% match.keys.each do |match_key| %>
+  <%= match_key.to_s %> <%= match[match_key] %>
+  <% end %>
+</match>
+<% end %>
+
+####
+## Source descriptions:
+##
+
+<% node[:fluentd][:server][:sources].each do |source| %>
+<source>
+  <% source.keys.each do |source_key| %>
+  <%= source_key.to_s %> <%= source[source_key] %>
+  <% end %>
+</source>
+<% end %>
+
+####
+## Examples:
+##
+
+## File input
+## read apache logs continuously and tags td.apache.access
+#<source>
+#  type tail
+#  format apache
+#  path /var/log/httpd-access.log
+#  tag td.apache.access
+#</source>
+
+## File output
+## match tag=local.** and write to file
+#<match local.**>
+#  type file
+#  path /var/log/td-agent/access
+#</match>
+
+## Forwarding
+## match tag=system.** and forward to another td-agent server
+#<match system.**>
+#  type forward
+#  host 192.168.0.11
+#  # secondary host is optional
+#  <secondary>
+#    host 192.168.0.12
+#  </secondary>
+#</match>
+
+## Multiple output
+## match tag=td.*.* and output to Treasure Data AND file
+#<match td.*.*>
+#  type copy
+#  <store>
+#    type tdlog
+#    apikey API_KEY
+#    auto_create_table
+#    buffer_type file
+#    buffer_path /var/log/td-agent/buffer/td
+#  </store>
+#  <store>
+#    type file
+#    path /var/log/td-agent/td-%Y-%m-%d/%H.log
+#  </store>
+#</match>

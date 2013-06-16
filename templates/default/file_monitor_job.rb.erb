@@ -1,0 +1,19 @@
+require "open3"
+require 'fluent-logger'
+Fluent::Logger::FluentLogger.open(nil, :host=>'<%= @server[:host] %>', :port=><%= @server[:port] %>)
+trap("TERM") {
+	<% if not @log_on_term.nil? %>
+	Fluent::Logger.post("<%= @job[:category].gsub("$name", "#{node[:launch_spec][:cluster_name]}-#{node[:launch_spec][:facet_name]}-#{node[:launch_spec][:facet_index]}") %>", "<%= @log_on_term %>")
+	<% end %>
+	system("kill `ps -ef | grep 'tail -f <%= @options %> <%= @job[:file] %>' | grep -v grep | awk '{print $2}'`")
+	thr.kill
+	exit 1
+}
+thr = Thread.new {
+	Open3.popen3("tail -f <%= @options %> <%= @job[:file] %>") do |stdin, stdout, stderr|
+		stdout.each do |line|
+			Fluent::Logger.post("<%= @job[:category].gsub("$name", "#{node[:launch_spec][:cluster_name]}-#{node[:launch_spec][:facet_name]}-#{node[:launch_spec][:facet_index]}") %>", line)
+		end
+	end
+}
+thr.join

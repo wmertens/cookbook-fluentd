@@ -1,0 +1,12 @@
+require 'rubygems'
+require 'daemons'
+if File.exists?("<%= @working_dir %>/jobs.conf")
+	File.readlines("<%= @working_dir %>/jobs.conf").each do |line|
+		job_name = line.chomp.strip
+		if job_name != ""
+			Daemons.run_proc(job_name, :log_output => true) do
+				exec "ruby <%= @working_dir %>/jobs/#{job_name}.rb"
+			end
+		end
+	end
+end
