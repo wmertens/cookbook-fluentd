@@ -1,12 +1,5 @@
 package "curl"
 
-directory "#{node[:fluentd][:server][:log_dir]}" do
-  user "td-agent"
-  group "td-agent"
-  recursive true
-  action :create
-end
-
 gem_package "fluent-plugin-webhdfs" do
   action :install
   only_if { node[:fluentd][:server][:enable_hdfs_output] == true }
@@ -27,6 +20,13 @@ script "install-fluentd" do
     curl -L http://toolbelt.treasure-data.com/sh/install-ubuntu-precise.sh | sh
   EOS
   only_if { not File.exist?("/etc/td-agent/td-agent.conf") }
+end
+
+directory "#{node[:fluentd][:server][:log_dir]}" do
+  user "td-agent"
+  group "td-agent"
+  recursive true
+  action :create
 end
 
 template "/etc/security/limits.conf" do
