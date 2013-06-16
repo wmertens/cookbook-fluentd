@@ -1,6 +1,6 @@
 default[:fluentd][:server][:port] = 24224
 default[:fluentd][:server][:log_dir] = "/data/fluentd_data"
-default[:fluentd][:server].merge! {
+default[:fluentd][:server].merge!({
   :enable_hdfs_output => true,
   :enable_mongo_output => true,
   :enable_s3_output => true,
@@ -27,7 +27,7 @@ default[:fluentd][:server].merge! {
       :port => 24230,
     },
   ]
-}
+})
 
 default[:fluentd][:client] = {
   :working_dir => "/etc/fluentd-client",

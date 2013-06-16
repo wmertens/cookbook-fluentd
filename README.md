@@ -25,10 +25,10 @@ Installs and starts fluentd server.
 
 ### Adding your own matches:
 
-    node[:fluentd][:server][:matches].merge! { "name.of.the.match.**" => {
+    node[:fluentd][:server][:matches].merge!({ "name.of.the.match.**" => {
 	  :type => "file",
 	  :file => "/path/to/a/file"
-    }}
+    }})
 
 Each key of a top hash becomes a `<match ...>` section. Each nested hash' key becomes a property and the value is used as a value.
 
