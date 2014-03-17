@@ -1,7 +1,7 @@
 # Fluentd server and client
 
 This cookbook contains setup for [fluentd](http://fluentd.org/) server and fluentd client.  
-This cookbook is designed to work with [Technicolor fork of ironfan](https://github.com/Technicolor-Portico/ironfan).
+This cookbook is designed to work with [Technicolor fork of ironfan](https://github.com/virdata/ironfan).
 
 ## Cookbooks
 
